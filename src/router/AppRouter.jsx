@@ -5,8 +5,8 @@ export const AppRouter = () => {
     return (
         <>
             <Routes>
-                <Route path="login" element={<LoginPage />} />
-                <Route path="/*" element={<FoodRoutes />} />
+                <Route path="inicio" element={<FoodRoutes />} />
+                <Route path="/*" element={<LoginPage />} />
             </Routes>
         </>
     );
