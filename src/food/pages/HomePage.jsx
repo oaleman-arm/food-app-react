@@ -8,7 +8,7 @@ export const HomePage = () => {
         <>
            <HomeSlider />
            <HomeSectionOne />
-           <HomeMostSeller category= "vegan" addCart={addToCart} />
+           <HomeMostSeller category= "all" addCart={addToCart} />
         </>
     );
 }

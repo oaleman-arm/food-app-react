@@ -33,7 +33,8 @@ export const LoginPage = () => {
     setLoading(true);
 
     try {
-      const url = `${microservice_operator_API_URL}/usuarios/login?username=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+      const baseUrl = import.meta.env.VITE_microservice_operator_API_URL;
+      const url = `${baseUrl}/usuarios/login?username=${email}&password=${password}`;
 
       const response = await fetch(url, {
         method: 'GET',

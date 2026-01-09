@@ -1,25 +1,45 @@
 export const getFoodCategory = async (category) => {
+    const baseUrl = import.meta.env.VITE_producto_search_service_API_URL;
     try {
-        const url = `https://world.openfoodfacts.org/api/v2/search?categories_tags_en=${encodeURIComponent(category)}&json=true`;
+        if(!category || category === 'all'){
+            const url = `${baseUrl}/find`;
+            const resp = await fetch(url);
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const json = await resp.json();
+
+            const products = json || [];
+
+            const items = products.map(item => ({
+                id: item.codigoProducto ?? item.id ?? Math.random().toString(36).substring(2, 15),
+                name: item.nombreProducto ?? '',
+                image: item.image_url ?? "/image.png",
+                description: item.descripcionProducto ?? '',
+                precioProducto: item.precioProducto ?? 0,
+                stock: item.stock ?? '',
+                tags: item.tags ?? [],
+            }));
+            console.log(items);
+            return items;
+        }
+
+        const url = `${baseUrl}/find?tag=${category}`;
         const resp = await fetch(url);
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const json = await resp.json();
 
-        const products = json.products || [];
-       // console.log(products);
+        const products = json || [];
 
-        const foodsCategory = products.map(food => ({
-            id: food.id ?? food.code ?? Math.random().toString(36).substring(2, 15),
-            name: food.product_name ?? '',
-            image: food.image_url ?? '',
-            brands: food.brands ?? '',
-            packaging: [food.product_quantity, food.product_quantity_unit].filter(v => v != null && v !== '').join(' '),
-            code: food.code ?? '',
-            // Random price for demonstration less than $100
-            price: food.ecoscore_score != null ? (Math.abs(food.ecoscore_score) % 100).toFixed(2) : 11.99,
+        const items = products.map(item => ({
+            id: item.codigoProducto ?? item.id ?? Math.random().toString(36).substring(2, 15),
+            name: item.nombreProducto ?? '',
+            image: item.image_url ?? "/image.png",
+            description: item.descripcionProducto ?? '',
+            precioProducto: item.precioProducto ?? 0,
+            stock: item.stock ?? '',
+            tags: item.tags ?? [],
         }));
-
-        return foodsCategory;
+        console.log(items);
+        return items;
     } catch (err) {
         console.error('getFoodCategory error:', err);
         return [];

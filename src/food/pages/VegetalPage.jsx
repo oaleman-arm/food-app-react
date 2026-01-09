@@ -9,7 +9,7 @@ export const VegetalPage = () => {
 
             <h1 className="text-center mt-5 pt-5">Vegetales</h1>
             <hr />
-            <FoodCategoryList category='Fresh legumes' addCart={addToCart} />
+            <FoodCategoryList category='vegetales' addCart={addToCart} />
         </>
     );
 }

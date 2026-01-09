@@ -16,28 +16,28 @@ export const Navbar = ({onOpenCart}) => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-navbar p-2 fixed-top">
             <div className="container-fluid">
-                <Link className="navbar-brand" to="/">FoodApp</Link>
+                <Link className="navbar-brand" to="/inicio">FoodApp</Link>
 
                 <div className="collapse navbar-collapse">
                     <div className="navbar-nav me-auto">
 
                         <NavLink
                             className={({isActive}) => `nav-item nav-link  ${isActive ? 'active' : ''}`}
-                            to="/vegetales"
+                            to="/inicio/vegetales"
                         >
                             Vegetales
                         </NavLink>
 
                         <NavLink
                             className={({isActive}) => `nav-item nav-link  ${isActive ? 'active' : ''}`}
-                            to="/frutos"
+                            to="/inicio/frutos"
                         >
                             Frutos
                         </NavLink>
 
                         <NavLink
                             className={({isActive}) => `nav-item nav-link  ${isActive ? 'active' : ''}`}
-                            to="/semillas"
+                            to="/inicio/semillas"
                         >
                             Semillas
                         </NavLink>
