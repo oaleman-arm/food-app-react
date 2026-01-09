@@ -21,8 +21,49 @@ const AuthForm = ({ type, active, title, children }) => (
 );
 
 export const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
-  const onLogin = () => {
+  const onLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const url = `${microservice_operator_API_URL}/usuarios/login?username=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        
+        // Si el microservicio devuelve el usuario, lo guardamos
+        console.log("Login exitoso:", data);
+        
+        // Guardar en localStorage para mantener la sesión
+        localStorage.setItem("user", JSON.stringify(data));
+
+        navigate("/inicio", { replace: true });
+      } else {
+        setError("Credenciales incorrectas. Intenta de nuevo.");
+      }
+    } catch (err) {
+      setError("Error de conexión con el servidor.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onLoginprueba = () => {
     navigate("/inicio", {
       replace: true,
     });
@@ -51,8 +92,10 @@ export const LoginPage = () => {
 
         <AuthForm type="signup" active={isSignup} title="Create Account">
           <input type="email" placeholder="Email" />
+          <input type="name" placeholder="Name" />
           <input type="password" placeholder="Password" />
-          <button onClick={onLogin}>SIGN UP</button>
+          <input type="password" placeholder="Confirm Password" />
+          <button onClick={onLoginprueba}>SIGN UP</button>
         </AuthForm>
 
 
@@ -67,10 +110,10 @@ export const LoginPage = () => {
         />
 
         <AuthForm type="signin" active={!isSignup} title="Sign In">
-          <input type="text" placeholder="Email" />
-          <input type="password" placeholder="Password" />
-          <a>Forgot password?</a>
-          <button onClick={onLogin}>SIGN IN</button>
+          {error && <p style={{ color: "red", fontSize: "14px" }}>{error}</p>}
+          <input type="text" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} required/>
+          <input type="password" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)} required/>
+          <button onClick={onLogin} disabled={loading}>{loading ? "Cargando..." : "SIGN IN"}</button>
         </AuthForm>
       </div>
     </section>
