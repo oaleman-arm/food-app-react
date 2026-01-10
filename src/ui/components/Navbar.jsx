@@ -11,6 +11,7 @@ export const Navbar = ({onOpenCart}) => {
         navigate('/login', {
             replace: true
         });
+        localStorage.removeItem('user');
     }
 
     return (

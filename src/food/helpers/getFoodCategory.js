@@ -1,5 +1,5 @@
 export const getFoodCategory = async (category) => {
-    const baseUrl = import.meta.env.VITE_producto_search_service_API_URL;
+    const baseUrl = import.meta.env.VITE_microservice_OPERATOR_API_URL || import.meta.env.VITE_microservice_operator_API_URL || 'http://localhost:8083/api/search';
     try {
         if(!category || category === 'all'){
             const url = `${baseUrl}/find`;
